@@ -1,21 +1,17 @@
 version: '3.0'
 services:
-  web-1:
-    build:
-      dockerfile: docker/Dockerfile.webapp
-      context: .
+  yo-1:
+    image: yo:0.0.1-SNAPSHOT
     environment:
       RABBITMQ_HOST: rabbitmq
     ports:
-    - "8080:8080"
+      - "8080:8080"
     depends_on:
       - rabbitmq
-  web-2:
-    build:
-      dockerfile: docker/Dockerfile.webapp
-      context: .
+  yo-2:
+    image: yo:0.0.1-SNAPSHOT
     environment:
-      RABBITMQ_HOST: rabbitmq
+      WEBSOCKET_RELAY_HOST: rabbitmq
     ports:
       - "8081:8080"
     depends_on:

@@ -1,5 +1,6 @@
 package com.sentientmonkey.yo
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
 import org.springframework.messaging.simp.config.MessageBrokerRegistry
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker
@@ -9,7 +10,12 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-class WebSocketConfiguration : WebSocketMessageBrokerConfigurer {
+class WebSocketConfiguration(
+        @Value("\${websocket.relay.host:localhost}") val relayHost: String,
+        @Value("\${websocket.relay.port:61613}") val relayPort: Int,
+        @Value("\${websocket.client.login:guest}") val clientLogin: String,
+        @Value("\${websocket.client.passcode:guest}") val clientPasscode: String
+) : WebSocketMessageBrokerConfigurer {
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
         registry.addEndpoint("/websocket-app").withSockJS()
     }
@@ -17,9 +23,9 @@ class WebSocketConfiguration : WebSocketMessageBrokerConfigurer {
     override fun configureMessageBroker(registry: MessageBrokerRegistry) {
         registry.setApplicationDestinationPrefixes("/app")
                 .enableStompBrokerRelay("/topic")
-                .setRelayHost(System.getenv("RABBITMQ_HOST"))
-                .setRelayPort(61613)
-                .setClientLogin("guest")
-                .setClientPasscode("guest")
+                .setRelayHost(relayHost)
+                .setRelayPort(relayPort)
+                .setClientLogin(clientLogin)
+                .setClientPasscode(clientPasscode)
     }
 }

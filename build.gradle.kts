@@ -46,11 +46,3 @@ tasks.withType<KotlinCompile> {
 		jvmTarget = "11"
 	}
 }
-
-tasks.getByName<org.springframework.boot.gradle.tasks.run.BootRun>("bootRun") {
-	environment("RABBITMQ_HOST", "localhost")
-}
-
-tasks.getByName<Test>("test") {
-	environment("RABBITMQ_HOST", "localhost")
-}

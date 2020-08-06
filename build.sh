@@ -2,5 +2,5 @@
 
 set -ex
 
-./gradlew clean build
+./gradlew bootBuildImage
 docker-compose build
