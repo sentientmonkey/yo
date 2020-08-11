@@ -3,7 +3,8 @@ services:
   yo-1:
     image: yo:0.0.1-SNAPSHOT
     environment:
-      RABBITMQ_HOST: rabbitmq
+      WEBSOCKET_RELAY_ENABLED: "false"
+      WEBSOCKET_RELAY_HOST: rabbitmq
     ports:
       - "8080:8080"
     depends_on:
@@ -11,6 +12,7 @@ services:
   yo-2:
     image: yo:0.0.1-SNAPSHOT
     environment:
+      WEBSOCKET_RELAY_ENABLED: "false"
       WEBSOCKET_RELAY_HOST: rabbitmq
     ports:
       - "8081:8080"
